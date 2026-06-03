@@ -39,6 +39,15 @@ CSRF_TRUSTED_ORIGINS = [
     if o.strip()
 ]
 
+# 置于 Nginx 等反向代理之后时识别真实 Host / HTTPS
+USE_X_FORWARDED_HOST = os.environ.get("USE_X_FORWARDED_HOST", "false").lower() in (
+    "1",
+    "true",
+    "yes",
+)
+if os.environ.get("USE_X_FORWARDED_PROTO", "false").lower() in ("1", "true", "yes"):
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
